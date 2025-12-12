@@ -25,6 +25,15 @@ class BasicService(ListIdsMixin, ListNameMixin, generics.AsyncCreateService):
         ]
 
     @grpc_action(
+        request=[],
+        response=[{"name": "name", "type": "string"}],
+        response_stream=True,
+    )
+    async def StreamExample(self, request, context):
+        for i in range(3):
+            yield fakeapp_pb2.BasicStreamExampleResponse(name=f"response-{i}")
+
+    @grpc_action(
         request=[{"name": "user_name", "type": "string"}],
         response=BasicServiceSerializer,
     )

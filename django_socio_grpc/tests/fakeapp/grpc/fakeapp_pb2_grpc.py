@@ -6,7 +6,7 @@ import warnings
 from django_socio_grpc.tests.fakeapp.grpc import fakeapp_pb2 as django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
-GRPC_GENERATED_VERSION = '1.71.0'
+GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -19,7 +19,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in django_socio_grpc/tests/fakeapp/grpc/fakeapp_pb2_grpc.py depends on'
+        + ' but the generated code in django_socio_grpc/tests/fakeapp/grpc/fakeapp_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -84,6 +84,11 @@ class BasicControllerStub(object):
                 '/myproject.fakeapp.BasicController/MyMethod',
                 request_serializer=django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.CustomNameForRequest.SerializeToString,
                 response_deserializer=django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.CustomNameForResponse.FromString,
+                _registered_method=True)
+        self.StreamExample = channel.unary_stream(
+                '/myproject.fakeapp.BasicController/StreamExample',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.BasicStreamExampleResponse.FromString,
                 _registered_method=True)
         self.TestBaseProtoSerializer = channel.unary_unary(
                 '/myproject.fakeapp.BasicController/TestBaseProtoSerializer',
@@ -165,6 +170,12 @@ class BasicControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def StreamExample(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def TestBaseProtoSerializer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -235,6 +246,11 @@ def add_BasicControllerServicer_to_server(servicer, server):
                     servicer.MyMethod,
                     request_deserializer=django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.CustomNameForRequest.FromString,
                     response_serializer=django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.CustomNameForResponse.SerializeToString,
+            ),
+            'StreamExample': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamExample,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.BasicStreamExampleResponse.SerializeToString,
             ),
             'TestBaseProtoSerializer': grpc.unary_unary_rpc_method_handler(
                     servicer.TestBaseProtoSerializer,
@@ -522,6 +538,33 @@ class BasicController(object):
             '/myproject.fakeapp.BasicController/MyMethod',
             django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.CustomNameForRequest.SerializeToString,
             django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.CustomNameForResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamExample(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/myproject.fakeapp.BasicController/StreamExample',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            django__socio__grpc_dot_tests_dot_fakeapp_dot_grpc_dot_fakeapp__pb2.BasicStreamExampleResponse.FromString,
             options,
             channel_credentials,
             insecure,

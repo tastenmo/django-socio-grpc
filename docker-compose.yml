@@ -11,7 +11,7 @@ services:
       - DB_USER=test
       - DB_PASSWORD=test_pw
       - DB_HOST=test-database
-      - DB_PORT=5432
+      - DB_PORT=5435
     command: python test_utils/runserver.py
     #command: python test_utils/load_tests.py
     # command: /bin/bash
@@ -50,13 +50,14 @@ services:
   test-database:
     image: library/postgres:15.3
     ports:
-      - "5432:5432"
+      - "5435:5435"
     volumes:
       - django-socio-grpc-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: test
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test_pw
+    command: ["postgres", "-p", "5435"]
     networks:
       django-socio-grpc-network:
 

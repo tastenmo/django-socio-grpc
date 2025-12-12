@@ -23,6 +23,8 @@ djangorestframework = "*"
 grpcio-tools = "^1.50.0"
 lark = "^1.0.0"
 grpcio-health-checking = "*"
+grpcio-status = "*"
+async-timeout = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"
@@ -32,6 +34,8 @@ pytest-django = "^4.2.0"
 freezegun = "^1.1.0"
 pre-commit = "^2.19.0"
 ruff = "^0.3.4"
+daphne = "^4.2.1"
+sonora = {path = "../sonora-connect", develop = true}
 
 [tool.poetry.group.docs]
 optional = true
